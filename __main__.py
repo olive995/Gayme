@@ -1,5 +1,5 @@
 import pygame
-
+import sys
 
 pygame.init()
 
@@ -12,51 +12,64 @@ pygame.display.set_caption('Gayme')
 
 black = (0,0,0)
 white = (255,255,255)
-
+cat_width = 73
+cat_height = 73
 clock = pygame.time.Clock()
-crashed = False
 catImg = pygame.image.load('cat.png')
+catScene = pygame.image.load('scene.gif')
 
 def cat(x,y):
+    gameDisplay.blit(catScene, (800,600))
     gameDisplay.blit(catImg, (x,y))
 
-x =  (display_width * 0.45)
-y = (display_height * 0.8)
-x_change = 0
-y_change = 0
-cat_speed = 0
+def game_loop():
+
+    x =  (display_width * 0.45)
+    y = (display_height * 0.8)
+    x_change = 0
+    y_change = 0
+    gameExit = False
 
 
-while not crashed:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            crashed = True
-
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
-                x_change = -5
-            elif event.key == pygame.K_UP:
-                y_change = -5
-            elif event.key == pygame.K_DOWN:
-                y_change = 5
-            elif event.key == pygame.K_RIGHT:
-                x_change = 5
-
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                x_change = 0
-            elif event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-                y_change = 0
-
-    x += x_change
-    y += y_change
-
-    gameDisplay.fill(white)
-    cat(x,y)
 
 
-    pygame.display.update()
-    clock.tick(60)
+    while not gameExit:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                gameExit = True
 
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    pygame.transform.flip(gameDisplay, 180, 0)
+                    x_change = -5
+                elif event.key == pygame.K_UP:
+                    y_change = -5
+                elif event.key == pygame.K_DOWN:
+                    y_change = 5
+                elif event.key == pygame.K_RIGHT:
+                    x_change = 5
+                elif event.key -- pygame.K_ESCAPE:
+                    pygame.quit()
+
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                    x_change = 0
+                elif event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+                    y_change = 0
+
+        x += x_change
+        y += y_change
+
+        cat(x,y)
+
+        if x > display_width - cat_width or x < 0:
+            x_change = 0
+        if y > display_height - cat_height or y < 0:
+            y_change = 0
+
+        pygame.display.update()
+        clock.tick(60)
+
+game_loop()
 pygame.quit()
 quit()
