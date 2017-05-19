@@ -16,10 +16,11 @@ cat_width = 73
 cat_height = 73
 clock = pygame.time.Clock()
 catImg = pygame.image.load('cat.png')
-catScene = pygame.image.load('scene.gif')
+catScene = pygame.image.load('catscene.jpg')
 
 def cat(x,y):
-    gameDisplay.blit(catScene, (800,600))
+
+    gameDisplay.blit(catScene, ((x/(display_width)), (y/(display_height))))
     gameDisplay.blit(catImg, (x,y))
 
 def game_loop():
