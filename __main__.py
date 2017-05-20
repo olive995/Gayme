@@ -6,7 +6,7 @@ import random
 pygame.init()
 
 
-display_width = 1280
+display_width = 800
 display_height = 600
 
 gameDisplay = pygame.display.set_mode((display_width,display_height))
@@ -24,6 +24,7 @@ catImg = pygame.image.load('cat.png')
 catImg = pygame.transform.scale(catImg, (150,150))
 
 catScene = pygame.image.load('catscene.jpg')
+catScene = pygame.transform.scale(catScene, (800,600))
 
 pickle = pygame.image.load('pickle.png')
 pickle = pygame.transform.scale(pickle, (175,175))
