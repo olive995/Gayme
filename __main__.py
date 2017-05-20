@@ -71,6 +71,7 @@ def game_loop():
                 elif event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                     y_change = 0
 
+
         xp += xp_change
         yp += yp_change
         x += x_change
