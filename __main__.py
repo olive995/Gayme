@@ -7,7 +7,7 @@ pygame.init()
 
 
 display_width = 1280
-display_height = 720
+display_height = 600
 
 gameDisplay = pygame.display.set_mode((display_width,display_height))
 pygame.display.set_caption('Gayme')
@@ -22,6 +22,13 @@ clock = pygame.time.Clock()
 catImg = pygame.image.load('cat.png')
 catScene = pygame.image.load('catscene.jpg')
 pickle = pygame.image.load('pickle.png')
+catSong = pygame.mixer.music.load('song.mp3')
+
+
+def game_song(song):
+
+    pygame.mixer.music.set_volume(0.75)
+    pygame.mixer.music.play(loops=-1, start=0.1)
 
 def things(thingx, thingy, thingw, thingh, image):
     gameDisplay.blit(pickle, (thingx,thingy,thingw,thingh))
@@ -114,6 +121,7 @@ def game_loop():
         pygame.display.update()
         clock.tick(60)
 
+game_song(catSong)
 game_loop()
 pygame.quit()
 quit()
