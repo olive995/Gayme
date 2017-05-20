@@ -67,7 +67,7 @@ def message(text):
     game_loop()
 
 def pickle_num(count):
-    font = pygame.font.SysFont(None, 25)
+    font = pygame.font.SysFont(None, 50)
     text = font.render("mews: "+str(count), True, white)
     gameDisplay.blit(text, (0,0))
 
@@ -140,6 +140,7 @@ def game_loop():
             dodged += 1
             thing_speed += 1
             thing_width += (dodged * 1.2)
+
 
 
         if y > thing_starty and y < thing_starty + thing_height or y+cat_height > thing_starty and y + cat_height < thing_starty+thing_height:
