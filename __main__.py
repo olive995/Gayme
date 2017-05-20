@@ -19,16 +19,27 @@ red = (255,0,0)
 cat_width = 25
 cat_height = 25
 clock = pygame.time.Clock()
+
 catImg = pygame.image.load('cat.png')
+catImg = pygame.transform.scale(catImg, (150,150))
+
 catScene = pygame.image.load('catscene.jpg')
+
 pickle = pygame.image.load('pickle.png')
+pickle = pygame.transform.scale(pickle, (175,175))
+
 catSong = pygame.mixer.music.load('song.mp3')
 
 
+def pickle_num(count):
+    font = pygame.font.SysFont(None, 25)
+    text = font.render("mews: "+str(count), True, white)
+    gameDisplay.blit(text(0,0))
+
 def game_song(song):
 
-    pygame.mixer.music.set_volume(0.75)
-    pygame.mixer.music.play(loops=-1, start=0.1)
+    pygame.mixer.music.set_volume(0.55)
+    pygame.mixer.music.play(loops=-1, start=0.0)
 
 def things(thingx, thingy, thingw, thingh, image):
     gameDisplay.blit(pickle, (thingx,thingy,thingw,thingh))
@@ -55,8 +66,14 @@ def message(text):
 
     game_loop()
 
+def pickle_num(count):
+    font = pygame.font.SysFont(None, 25)
+    text = font.render("mews: "+str(count), True, white)
+    gameDisplay.blit(text, (0,0))
+
 def crash():
     message("*blep*")
+    return game_loop()
 
 def game_loop():
 
@@ -71,6 +88,8 @@ def game_loop():
     thing_speed = 7
     thing_width = 50
     thing_height = 50
+
+    dodged = 0
 
 
 
@@ -105,6 +124,7 @@ def game_loop():
 
         gameDisplay.fill(white)
         cat(x,y)
+        pickle_num(dodged)
         things(thing_startx, thing_starty, thing_width, thing_height, pickle)
         thing_starty += thing_speed
 
@@ -117,9 +137,21 @@ def game_loop():
         if thing_starty > display_height:
             thing_starty = 0 - thing_height
             thing_startx = random.randrange(0,display_width)
+            dodged += 1
+            thing_speed += 1
+            thing_width += (dodged * 1.2)
+
+
+        if y > thing_starty and y < thing_starty + thing_height or y+cat_height > thing_starty and y + cat_height < thing_starty+thing_height:
+            print("y crossover")
+            if x > thing_startx and x < thing_startx + thing_width or x+cat_width > thing_startx and x + cat_width < thing_startx+thing_width:
+                print("x crossover")
+                crash()
+
+
+
 
         pygame.display.update()
-        clock.tick(60)
 
 game_song(catSong)
 game_loop()
