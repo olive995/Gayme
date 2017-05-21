@@ -45,7 +45,7 @@ def pickle_num(count):
 
 def game_song(song):
 
-    pygame.mixer.music.set_volume(0.55)
+    pygame.mixer.music.set_volume(0.20)
     pygame.mixer.music.play(loops=-1, start=0.0)
 
 def things(thingx, thingy, thingw, thingh, image):
@@ -73,8 +73,27 @@ def message(text):
 
     game_loop()
 
+def button (msg,x,y,w,h,ic,ac,action=None):
+    mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
+    if x+w > mouse[0] > x and y+h > mouse[1] > y:
+        pygame.draw.rect(gameDisplay, ac, (x,y,w,h))
+        if click[0] == 1 and action != None:
+            action()
+
+    else:
+        pygame.draw.rect(gameDisplay, ic, (x,y,w,h))
+    smallText = pygame.font.SysFont("comicsansms",20)
+    TextSurf, TextRect = text_objects(msg, smallText)
+    TextRect.center = ( (x+(w/2)), (y+(h/2)) )
+    gameDisplay.blit(TextSurf, TextRect)
+
+def quitgame():
+    pygame.quit()
+    quit()
+
 def unpause():
-    global pause
+    global paused
     pause = False
 
 def paused():
@@ -86,14 +105,15 @@ def paused():
     gameDisplay.blit(TextSurf, TextRect)
 
 
-    while pause:
+    while paused:
+        pygame.mixer.music.pause()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
 
-        button("Play Again",150,450,100,50,green,bright_green,unpause)
-        button("Quit",550,450,100,50,red,bright_red,gameExit)
+        button("Continue",150,450,100,50,black,bright_green,unpause)
+        button("Quit",550,450,100,50,black,bright_red,quitgame)
 
         pygame.display.update()
         clock.tick(15)
@@ -142,7 +162,7 @@ def game_loop():
                     y_change = 10
                 elif event.key == pygame.K_RIGHT:
                     x_change = 10
-                elif event.key -- pygame.K_ESCAPE:
+                elif event.key == pygame.K_ESCAPE:
                     pygame.quit()
                 if event.key == pygame.K_p:
                     pause = True
