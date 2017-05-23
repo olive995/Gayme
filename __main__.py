@@ -32,16 +32,12 @@ catScene = pygame.image.load('catscene.jpg')
 catScene = pygame.transform.scale(catScene, (800,600))
 
 pickle = pygame.image.load('pickle.png')
-pickle = pygame.transform.scale(pickle, (175,175))
+pickle = pygame.transform.scale(pickle, (75,75))
 
 catSong = pygame.mixer.music.load('song.mp3')
 
 pause = False
 
-def pickle_num(count):
-    font = pygame.font.SysFont(None, 25)
-    text = font.render("mews: "+str(count), True, white)
-    gameDisplay.blit(text(0,0))
 
 def game_song(song):
 
@@ -93,8 +89,9 @@ def quitgame():
     quit()
 
 def unpause():
-    global paused
+    global pause
     pause = False
+    pygame.mixer.music.unpause()
 
 def paused():
     pygame.font.init()
@@ -105,7 +102,7 @@ def paused():
     gameDisplay.blit(TextSurf, TextRect)
 
 
-    while paused:
+    while pause == True:
         pygame.mixer.music.pause()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -155,13 +152,13 @@ def game_loop():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     pygame.transform.flip(gameDisplay, 180, 0)
-                    x_change = -10
+                    x_change = -15
                 elif event.key == pygame.K_UP:
-                    y_change = -10
+                    y_change = -15
                 elif event.key == pygame.K_DOWN:
-                    y_change = 10
+                    y_change = 15
                 elif event.key == pygame.K_RIGHT:
-                    x_change = 10
+                    x_change = 15
                 elif event.key == pygame.K_ESCAPE:
                     pygame.quit()
                 if event.key == pygame.K_p:
@@ -187,9 +184,9 @@ def game_loop():
 
 
         if x > display_width - cat_width or x < 0:
-            crash()
+            x_change = 0
         if y > display_height - cat_height or y < 0:
-            crash()
+            y_change = 0
 
         if thing_starty > display_height:
             thing_starty = 0 - thing_height
